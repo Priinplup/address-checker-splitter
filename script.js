@@ -5,7 +5,7 @@ let globalCsvData = '';
 async function processAddresses() {
     const addresses = document.getElementById('addressInput').value.split('\n');
     const apiKey = 'AIzaSyBVKydMEhRhG501mX4vLE2B0GNviCHQu5M'; // Replace YOUR_API_KEY with your actual Google Maps API key
-    let allCsvData = '"Street","Street2","City","State","Zip"\n'; // CSV Header
+    const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(address)}&key=${apiKey}`;
 
     try {
         const response = await fetch(url);
