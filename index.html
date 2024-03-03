@@ -1,17 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Address Formatter</title>
-    <link rel="stylesheet" href="style.css">
-</head>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Bulk Address Formatter</title>
+        <link rel="stylesheet" href="style.css">
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500&display=swap" rel="stylesheet">
+    </head>
+    
 <body>
     <div id="app">
-        <input type="text" id="addressInput" placeholder="Enter address">
-        <button id="processAddress">Process Address</button>
+        <textarea id="addressInput" placeholder="Enter addresses (one per line)"></textarea>
+        <button id="processAddresses">Process Addresses</button>
         <div id="results"></div>
         <button id="copyCsv" style="display:none;">Copy CSV</button>
+        <button id="downloadCsv" style="display:none;">Download CSV</button>
     </div>
     <script src="script.js"></script>
 </body>

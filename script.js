@@ -1,9 +1,11 @@
-document.getElementById('processAddress').addEventListener('click', processAddress);
+document.getElementById('processAddresses').addEventListener('click', processAddresses);
 
-async function processAddress() {
-    const address = document.getElementById('addressInput').value;
-    const apiKey = 'AIzaSyBVKydMEhRhG501mX4vLE2B0GNviCHQu5M';
-    const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(address)}&key=${apiKey}`;
+let globalCsvData = '';
+
+async function processAddresses() {
+    const addresses = document.getElementById('addressInput').value.split('\n');
+    const apiKey = 'AIzaSyBVKydMEhRhG501mX4vLE2B0GNviCHQu5M'; // Replace YOUR_API_KEY with your actual Google Maps API key
+    let allCsvData = '"Street","Street2","City","State","Zip"\n'; // CSV Header
 
     try {
         const response = await fetch(url);
@@ -13,8 +15,11 @@ async function processAddress() {
             const addressComponents = data.results[0].address_components;
             const csvData = formatAddressToCSV(addressComponents);
             document.getElementById('results').textContent = csvData;
+            globalCsvData = csvData; // Update the global variable with the new CSV data
             document.getElementById('copyCsv').style.display = 'block';
+            document.getElementById('downloadCsv').style.display = 'block'; // Show the download button
             document.getElementById('copyCsv').addEventListener('click', () => copyToClipboard(csvData));
+            document.getElementById('downloadCsv').addEventListener('click', downloadCSV);
         } else {
             document.getElementById('results').textContent = 'Address not found';
         }
@@ -56,4 +61,15 @@ function copyToClipboard(text) {
     }, (err) => {
         console.error('Could not copy text: ', err);
     });
+}
+
+function downloadCSV() {
+    const blob = new Blob([globalCsvData], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.setAttribute('href', url);
+    link.setAttribute('download', 'formatted_address.csv');
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
 }
