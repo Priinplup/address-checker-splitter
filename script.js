@@ -41,35 +41,26 @@ function parseAddress(components) {
 }
 
 function outputResults(results) {
-    var csvContent = "data:text/csv;charset=utf-8,";
+    var csvContent = "";
     csvContent += "Address Line 1,Address Line 2,Town/City,State,Zip Code\n"; // Add the header
 
     results.forEach(function(row) {
         csvContent += `${row.street1},${row.street2},${row.city},${row.state},${row.zip}\n`;
     });
 
-    var encodedUri = encodeURI(csvContent);
+    var outputTextarea = document.createElement('textarea');
+    outputTextarea.setAttribute('readonly', '');
+    outputTextarea.style.width = '100%';
+    outputTextarea.style.height = '200px';
+    outputTextarea.value = csvContent;
+
     var downloadButton = document.getElementById('download-btn');
-    downloadButton.setAttribute("href", encodedUri);
-    downloadButton.setAttribute("download", "addresses.csv");
-    downloadButton.style.display = 'block';
+    downloadButton.style.display = 'none';
+
+    var formContainer = document.getElementById('form-container');
+    formContainer.appendChild(outputTextarea);
 }
 
 document.getElementById('download-btn').addEventListener('click', function(e) {
     e.target.style.display = 'none'; // Hide the button after downloading
-    var csvContent = "data:text/csv;charset=utf-8,";
-    csvContent += "Address Line 1,Address Line 2,Town/City,State,Zip Code\n"; // Add the header
-
-    results.forEach(function(row) {
-        csvContent += `${row.street1},${row.street2},${row.city},${row.state},${row.zip}\n`;
-    });
-
-    var encodedUri = encodeURI(csvContent);
-    var link = document.createElement("a");
-    link.setAttribute("href", encodedUri);
-    link.setAttribute("download", "addresses.csv");
-    document.body.appendChild(link); // Append the link to the body
-    link.click(); // Simulate a click on the link
-    document.body.removeChild(link); // Remove the link from the body after download
 });
-
