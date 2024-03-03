@@ -1,0 +1,27 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+    background-color: #f7f7f7;
+}
+
+#form-container {
+    margin-bottom: 20px;
+}
+
+#address-input {
+    padding: 10px;
+    width: 300px;
+    margin-right: 10px;
+}
+
+#search-btn {
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+#formatted-address {
+    background: #fff;
+    padding: 20px;
+    margin-top: 20px;
+}
