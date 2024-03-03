@@ -1,5 +1,5 @@
 body {
-    font-family: Arial, sans-serif;
+    font-family: "Montserrat", sans-serif;
     margin: 0;
     padding: 20px;
     background-color: #f7f7f7;
@@ -24,4 +24,11 @@ body {
     background: #fff;
     padding: 20px;
     margin-top: 20px;
+}
+
+body,
+button,
+input[type="text"],
+textarea {
+    font-family: "Montserrat", sans-serif;
 }
