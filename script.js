@@ -1,66 +1,59 @@
-document.getElementById('process-btn').addEventListener('click', function() {
-    var addresses = document.getElementById('address-input').value.split('\n');
-    processAddresses(addresses);
-});
+document.getElementById('processAddress').addEventListener('click', processAddress);
 
-function processAddresses(addressList) {
-    var geocoder = new google.maps.Geocoder();
-    var results = [];
-    var remaining = addressList.length;
+async function processAddress() {
+    const address = document.getElementById('addressInput').value;
+    const apiKey = 'AIzaSyBVKydMEhRhG501mX4vLE2B0GNviCHQu5M';
+    const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(address)}&key=${apiKey}`;
 
-    addressList.forEach(function(address, index) {
-        geocoder.geocode({ 'address': address.trim() }, function(res, status) {
-            if (status == google.maps.GeocoderStatus.OK) {
-                var formattedAddress = parseAddress(res[0].address_components);
-                results[index] = formattedAddress; // Keep the original order
-            } else {
-                results[index] = { error: "Geocode failed for address: " + address };
-            }
+    try {
+        const response = await fetch(url);
+        const data = await response.json();
+        if (data.status === 'OK') {
+            const formattedAddress = data.results[0].formatted_address;
+            const addressComponents = data.results[0].address_components;
+            const csvData = formatAddressToCSV(addressComponents);
+            document.getElementById('results').textContent = csvData;
+            document.getElementById('copyCsv').style.display = 'block';
+            document.getElementById('copyCsv').addEventListener('click', () => copyToClipboard(csvData));
+        } else {
+            document.getElementById('results').textContent = 'Address not found';
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        document.getElementById('results').textContent = 'An error occurred';
+    }
+}
 
-            remaining--;
-            if (remaining <= 0) {
-                outputResults(results);
-            }
-        });
+function formatAddressToCSV(addressComponents) {
+    let street = '', city = '', state = '', zip = '', street2 = '';
+    addressComponents.forEach(component => {
+        if (component.types.includes('route')) {
+            street += component.long_name;
+        }
+        if (component.types.includes('street_number')) {
+            street = component.long_name + ' ' + street;
+        }
+        if (component.types.includes('locality')) {
+            city = component.long_name;
+        }
+        if (component.types.includes('administrative_area_level_1')) {
+            state = component.short_name;
+        }
+        if (component.types.includes('postal_code')) {
+            zip = component.long_name;
+        }
+        // Assuming street address 2 can be a subpremise
+        if (component.types.includes('subpremise')) {
+            street2 = component.long_name;
+        }
+    });
+    return `"${street}","${street2}","${city}","${state}","${zip}"`;
+}
+
+function copyToClipboard(text) {
+    navigator.clipboard.writeText(text).then(() => {
+        alert('CSV copied to clipboard');
+    }, (err) => {
+        console.error('Could not copy text: ', err);
     });
 }
-
-function parseAddress(components) {
-    var parsedData = {
-        street1: '',
-        street2: '',
-        city: '',
-        state: '',
-        zip: ''
-    };
-
-    // Parsing logic here similar to before
-    // ...
-
-    return parsedData;
-}
-
-function outputResults(results) {
-    var csvContent = "";
-    csvContent += "Address Line 1,Address Line 2,Town/City,State,Zip Code\n"; // Add the header
-
-    results.forEach(function(row) {
-        csvContent += `${row.street1},${row.street2},${row.city},${row.state},${row.zip}\n`;
-    });
-
-    var outputTextarea = document.createElement('textarea');
-    outputTextarea.setAttribute('readonly', '');
-    outputTextarea.style.width = '100%';
-    outputTextarea.style.height = '200px';
-    outputTextarea.value = csvContent;
-
-    var downloadButton = document.getElementById('download-btn');
-    downloadButton.style.display = 'none';
-
-    var formContainer = document.getElementById('form-container');
-    formContainer.appendChild(outputTextarea);
-}
-
-document.getElementById('download-btn').addEventListener('click', function(e) {
-    e.target.style.display = 'none'; // Hide the button after downloading
-});

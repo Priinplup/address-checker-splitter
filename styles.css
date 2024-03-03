@@ -1,34 +1,23 @@
-body {
-    font-family: "Montserrat", sans-serif;
+body, html {
+    height: 100%;
     margin: 0;
-    padding: 20px;
-    background-color: #f7f7f7;
+    font-family: Arial, sans-serif;
 }
 
-#form-container {
-    margin-bottom: 20px;
+#app {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
 }
 
-#address-input {
+input, button {
+    margin: 10px;
     padding: 10px;
-    width: 300px;
-    margin-right: 10px;
+    font-size: 16px;
 }
 
-#search-btn {
-    padding: 10px 20px;
-    cursor: pointer;
-}
-
-#formatted-address {
-    background: #fff;
-    padding: 20px;
+#results {
     margin-top: 20px;
-}
-
-body,
-button,
-input[type="text"],
-textarea {
-    font-family: "Montserrat", sans-serif;
 }

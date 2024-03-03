@@ -3,17 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" 
-    rel="stylesheet">
-    <title>Bulk Address Formatter</title>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVKydMEhRhG501mX4vLE2B0GNviCHQu5M&libraries=places"></script>
+    <title>Address Formatter</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <textarea id="address-input" rows="10" cols="50" placeholder="Enter one address per line"></textarea>
-    <button id="process-btn">Process Addresses</button>
-    <button id="download-btn" style="display:none;">Download CSV</button>
+    <div id="app">
+        <input type="text" id="addressInput" placeholder="Enter address">
+        <button id="processAddress">Process Address</button>
+        <div id="results"></div>
+        <button id="copyCsv" style="display:none;">Copy CSV</button>
+    </div>
     <script src="script.js"></script>
 </body>
 </html>
