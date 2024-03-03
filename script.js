@@ -1,10 +1,9 @@
-document.getElementById('processAddresses').addEventListener('click', processAddresses);
+document.getElementById('processAddress').addEventListener('click', processAddress);
+let globalCsvData = ''; 
 
-let globalCsvData = '';
-
-async function processAddresses() {
-    const addresses = document.getElementById('addressInput').value.split('\n');
-    const apiKey = 'AIzaSyBVKydMEhRhG501mX4vLE2B0GNviCHQu5M'; // Replace YOUR_API_KEY with your actual Google Maps API key
+async function processAddress() {
+    const address = document.getElementById('addressInput').value;
+    const apiKey = 'AIzaSyBVKydMEhRhG501mX4vLE2B0GNviCHQu5M'; 
     const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(address)}&key=${apiKey}`;
 
     try {
